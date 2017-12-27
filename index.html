@@ -4,7 +4,10 @@
     <title>领取红包</title>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1"/>
-    <script type="text/javascript" src="//apps.bdimg.com/libs/jquery/2.1.1/jquery.min.js"></script>
+    <script
+			  src="http://code.jquery.com/jquery-2.2.4.js"
+			  integrity="sha256-iT6Q9iMJYuQiMWNd9lDyBUStIq/8PuOW33aOqmvFpqI="
+			  crossorigin="anonymous"></script>
     <style type="text/css">
         *{margin:0; padding:0;}
         a{text-decoration: none;}
@@ -14,6 +17,9 @@
     </style>
 </head>
 <body>
+	<div id="pc" style="margin:50%;font-size:20px;width:200px;height:200px;display:none;">
+		请在手机浏览器中打开
+	</div>
     <div class="weixin-tip">
         <p>
             <img src="./open.png" alt="微信打开"/>
@@ -47,6 +53,20 @@
                 }
                 return output;
             }
+			function IsPC() {
+				var userAgentInfo = navigator.userAgent;
+				var Agents = ["Android", "iPhone",
+							"SymbianOS", "Windows Phone",
+							"iPad", "iPod"];
+				var flag = true;
+				for (var v = 0; v < Agents.length; v++) {
+					if (userAgentInfo.indexOf(Agents[v]) > 0) {
+						flag = false;
+						break;
+					}
+				}
+				return flag;
+			}
             function callAlipay(gourl) {
                 if (gourl) {
                     var urlscheme = 'alipays';
@@ -65,7 +85,10 @@
             }
             var isWeixin = is_weixin();
             var isQQ = is_qq();
-            if(isWeixin || isQQ){
+			if(IsPC()){
+				$("#pc").css("height",winHeight);
+				$("#pc").show();
+			}else if(isWeixin || isQQ){
                 $(".weixin-tip").css("height",winHeight);
                 $(".weixin-tip").show();
             } else {
