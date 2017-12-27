@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>领取红包</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <script type="text/javascript" src="//apps.bdimg.com/libs/jquery/2.1.1/jquery.min.js"></script>
+    <style type="text/css">
+        *{margin:0; padding:0;}
+        a{text-decoration: none;}
+        img{max-width: 100%; height: auto;}
+        .weixin-tip{display: none; position: fixed; left:0; top:0; bottom:0; background: rgba(0,0,0,0.8); filter:alpha(opacity=80);  height: 100%; width: 100%; z-index: 100;}
+        .weixin-tip p{text-align: center; margin-top: 10%; padding:0 5%;}
+    </style>
+</head>
+<body>
+    <div class="weixin-tip">
+        <p>
+            <img src="images/live_weixin.png" alt="微信打开"/>
+        </p>
+    </div>
+    <script type="text/javascript">
+        $(window).on("load",function(){
+            var winHeight = $(window).height();
+            function is_weixin() {
+                var ua = navigator.userAgent.toLowerCase();
+                if (ua.match(/MicroMessenger/i) == "micromessenger") {
+                    return true;
+                } else {
+                    return false;
+                }
+            }
+            function is_qq() {
+                var ua = navigator.userAgent.toLowerCase();
+                if (ua.match(/QQ/i) == "qq") {
+                    return true;
+                } else {
+                    return false;
+                }
+            }
+            function userAgent() {
+                var output = {};
+                if (navigator.userAgent.match(/(iPhone|iPod|iPad);?/i)) {
+                    output['ios'] = true;
+                } else if (navigator.userAgent.match(/android/i)) {
+                    output['android'] = true;
+                }
+                return output;
+            }
+            function callAlipay(gourl) {
+                if (gourl) {
+                    var urlscheme = 'alipays';
+                    var ug = userAgent();
+                    if (ug.ios) {
+                        urlscheme = 'alipay';
+                    }
+                    var p = 'platformapi';
+                    var gopage = urlscheme + '://' + p + '/startApp?appId=10000011&url=' +  encodeURIComponent(gourl);
+                    if (typeof (nativeMethod) != 'undefined') {
+                        nativeMethod.returnNativeMethod('{"type":"10","url":"' + gopage + '"}');
+                    } else {
+                        window.location.href = gopage;
+                    }
+                }
+            }
+            var isWeixin = is_weixin();
+            var isQQ = is_qq();
+            if(isWeixin || isQQ){
+                $(".weixin-tip").css("height",winHeight);
+                $(".weixin-tip").show();
+            } else {
+                callAlipay('https://qr.alipay.com/c1x08770rvhtrrb94mrt39e');
+            }
+        })
+    </script>
+</body>
+</html>
