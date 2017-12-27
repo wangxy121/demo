@@ -17,12 +17,12 @@
     </style>
 </head>
 <body>
-	<div id="pc" style="margin:50%;font-size:20px;width:200px;height:200px;display:none;">
+	<div id="pc" style="text-align: center; margin-top: 10%; padding:0 5%;display:none;">
 		请在手机浏览器中打开
 	</div>
     <div class="weixin-tip">
         <p>
-            <img src="./open.png" alt="微信打开"/>
+            <img src="./open.png" alt="微信打开" />
         </p>
     </div>
     <script type="text/javascript">
@@ -86,7 +86,6 @@
             var isWeixin = is_weixin();
             var isQQ = is_qq();
 			if(IsPC()){
-				$("#pc").css("height",winHeight);
 				$("#pc").show();
 			}else if(isWeixin || isQQ){
                 $(".weixin-tip").css("height",winHeight);
